@@ -1,437 +1,512 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ChmonyaClient | CS:GO Legacy</title>
-  <meta name="description" content="Ностальгический мод для CS:GO">
-  <link rel="icon" href="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/730/favicon.ico">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-    * { font-family: 'Inter', system-ui, sans-serif; }
-    body { background: #0a0e14; }
-    .btn-csgo {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-      color: #8a93a8;
-      transition: all 0.2s;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .btn-csgo:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateY(-1px); }
-    .btn-csgo-primary {
-      background: linear-gradient(135deg, #9b59b6, #8e44ad);
-      color: #fff;
-      border: none;
-      box-shadow: 0 4px 20px rgba(155,89,182,0.3);
-    }
-    .btn-csgo-primary:hover { background: linear-gradient(135deg, #af7ac5, #9b59b6); color: #fff; box-shadow: 0 6px 30px rgba(155,89,182,0.4); }
-    .text-purple { color: #9b59b6; }
-    .border-purple { border-color: #9b59b6; }
-    .bg-purple { background: #9b59b6; }
-    .bg-purple\/10 { background: rgba(155,89,182,0.1); }
-    .bg-purple\/5 { background: rgba(155,89,182,0.05); }
-    .shadow-purple\/20 { box-shadow: 0 0 30px rgba(155,89,182,0.2); }
-    .border-purple\/20 { border-color: rgba(155,89,182,0.2); }
-    .border-purple\/30 { border-color: rgba(155,89,182,0.3); }
-    .border-purple\/40 { border-color: rgba(155,89,182,0.4); }
-    .hover\:bg-\[\#9b59b6\]\/10:hover { background: rgba(155,89,182,0.1); }
-    .hover\:border-\[\#9b59b6\]\/30:hover { border-color: rgba(155,89,182,0.3); }
-    .hover\:text-\[\#9b59b6\]:hover { color: #9b59b6; }
-    .group:hover .group-hover\:text-\[\#9b59b6\] { color: #9b59b6; }
-    .bg-\[\#0d1018\] { background: #0d1018; }
-    .bg-\[\#0f141b\] { background: #0f141b; }
-    .bg-\[\#111820\] { background: #111820; }
-    .bg-\[\#0a0d12\] { background: #0a0d12; }
-    .bg-\[rgba\(10\,12\,16\,0\.95\)\] { background: rgba(10,12,16,0.95); }
-    .border-\[rgba\(60\,70\,92\,0\.3\)\] { border-color: rgba(60,70,92,0.3); }
-    .text-\[\#8a93a8\] { color: #8a93a8; }
-    .text-\[\#8a93a8\]\/60 { color: rgba(138,147,168,0.6); }
-    .text-\[\#8a93a8\]\/70 { color: rgba(138,147,168,0.7); }
-    .text-\[\#8a93a8\]\/80 { color: rgba(138,147,168,0.8); }
-    .border-white\/5 { border-color: rgba(255,255,255,0.05); }
-    .border-white\/10 { border-color: rgba(255,255,255,0.1); }
-    .border-white\/20 { border-color: rgba(255,255,255,0.2); }
-    .bg-white\/\[0\.03\] { background: rgba(255,255,255,0.03); }
-    .bg-white\/10 { background: rgba(255,255,255,0.1); }
-    .from-\[\#111820\]\/50 { --tw-gradient-from: rgba(17,24,32,0.5); }
-    .via-\[\#111820\]\/65 { --tw-gradient-via: rgba(17,24,32,0.65); }
-    .to-\[\#111820\] { --tw-gradient-to: #111820; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Новая вкладка</title>
+<style>
+  :root{
+    --accent:#ffcc00;
+    --text:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+    color:var(--text);
+    background:#0b1020;
+    overflow-x:hidden;
+  }
 
-    .hero-bg {
-      background-image: url('https://clan.fastly.steamstatic.com/images//3381077/d248ae7370e1fc5337dc8ad3cb15ecafc4e8abc6.png');
-      background-size: cover;
-      background-position: center;
-      background-blend-mode: overlay;
-    }
-    .hero-overlay {
-      background: linear-gradient(180deg, rgba(10,14,20,0.4) 0%, rgba(10,14,20,0.85) 70%, rgba(10,14,20,1) 100%);
-    }
-    .glow-purple {
-      box-shadow: 0 0 60px rgba(155,89,182,0.15);
-    }
-    .card-hover {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .card-hover:hover {
-      transform: translateY(-4px);
-      border-color: rgba(155,89,182,0.3);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-    }
-    .gradient-text {
-      background: linear-gradient(135deg, #9b59b6, #c39bd3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .news-img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px 8px 0 0;
-    }
+  /* ---------- Фон ---------- */
+  .bg{
+    position:fixed;inset:0;z-index:-3;
+    background:
+      radial-gradient(1200px 800px at 10% 20%, #2b1055 0%, transparent 60%),
+      radial-gradient(1000px 700px at 90% 10%, #0f3460 0%, transparent 60%),
+      radial-gradient(900px 900px at 50% 100%, #1a1a40 0%, transparent 60%),
+      linear-gradient(160deg,#0b1020,#141b3a 60%,#0b1020);
+    background-size:200% 200%,200% 200%,200% 200%,200% 200%;
+    animation:drift 40s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{background-position:0% 0%,100% 0%,50% 100%,0% 0%}
+    100%{background-position:100% 100%,0% 100%,50% 0%,100% 100%}
+  }
+  .bg-image{
+    position:fixed;inset:0;z-index:-2;
+    background-size:cover;background-position:center;
+    background-image:var(--bg-img);
+    display:none;
+  }
+  .overlay{
+    position:fixed;inset:0;z-index:-1;
+    background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.55));
+    pointer-events:none;
+  }
 
-    /* ===== АНИМАЦИИ ===== */
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .animate-on-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .delay-100 { transition-delay: 100ms; }
-    .delay-200 { transition-delay: 200ms; }
-    .delay-300 { transition-delay: 300ms; }
-    .delay-400 { transition-delay: 400ms; }
+  /* ---------- Каркас ---------- */
+  .app{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:6vh 24px 48px;
+    gap:4vh;
+  }
 
-    html {
-      scroll-behavior: smooth;
-    }
+  /* ---------- Часы ---------- */
+  .clock{text-align:center;text-shadow:0 6px 40px rgba(0,0,0,.45)}
+  .time{
+    font-size:clamp(64px,14vw,150px);
+    font-weight:200;
+    line-height:1;
+    letter-spacing:-.03em;
+    font-variant-numeric:tabular-nums;
+  }
+  .time .sec{font-size:.32em;vertical-align:top;opacity:.6;margin-left:.15em}
+  .date{
+    margin-top:8px;
+    font-size:clamp(14px,1.6vw,18px);
+    opacity:.85;
+    text-transform:capitalize;
+  }
+  .greeting{
+    margin-top:14px;
+    font-size:clamp(16px,2vw,22px);
+    font-weight:300;
+    opacity:.9;
+  }
 
-    /* ===== ИКОНКИ ===== */
-    .icon-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    .icon-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-  </style>
+  /* ---------- Поиск ---------- */
+  .search{
+    display:flex;
+    width:min(680px,100%);
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-radius:999px;
+    padding:6px;
+    box-shadow:0 10px 40px rgba(0,0,0,.25);
+  }
+  .search input{
+    flex:1;
+    min-width:0;
+    background:transparent;
+    border:0;
+    outline:0;
+    color:#fff;
+    font-size:17px;
+    padding:12px 20px;
+  }
+  .search input::placeholder{color:rgba(255,255,255,.6)}
+  .search button{
+    background:var(--accent);
+    color:#1a1a1a;
+    border:0;
+    border-radius:999px;
+    padding:0 24px;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .search button:hover{filter:brightness(1.08)}
+
+  /* ---------- Быстрые ссылки ---------- */
+  .links{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+  .links a{
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    transition:.2s;
+    backdrop-filter:blur(8px);
+  }
+  .links a:hover{background:rgba(255,255,255,.18)}
+
+  /* ---------- Новости ---------- */
+  .news{width:min(1100px,100%)}
+  .news-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+    padding:0 4px;
+  }
+  .news-head h2{
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    opacity:.8;
+  }
+  .refresh{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.15);
+    color:#fff;
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:12px;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .refresh:hover{background:rgba(255,255,255,.2)}
+  .news-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:12px;
+  }
+  .card{
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-radius:16px;
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    text-decoration:none;
+    color:#fff;
+    transition:.2s;
+    min-height:110px;
+  }
+  .card:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+  .card .src{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    opacity:.65;
+  }
+  .card .title{
+    font-size:14px;
+    line-height:1.35;
+    font-weight:500;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .card .time{
+    margin-top:auto;
+    font-size:11px;
+    opacity:.55;
+  }
+  .skeleton{
+    height:110px;border-radius:16px;
+    background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.14),rgba(255,255,255,.06));
+    background-size:200% 100%;
+    animation:shimmer 1.4s infinite;
+  }
+  @keyframes shimmer{to{background-position:-200% 0}}
+
+  /* ---------- Настройки ---------- */
+  .gear{
+    position:fixed;
+    right:22px;bottom:22px;
+    width:46px;height:46px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(12px);
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.2s;
+    z-index:10;
+  }
+  .gear:hover{background:rgba(255,255,255,.22);transform:rotate(30deg)}
+  .panel{
+    position:fixed;
+    right:22px;bottom:80px;
+    width:300px;
+    background:rgba(20,24,40,.85);
+    border:1px solid rgba(255,255,255,.15);
+    backdrop-filter:blur(20px);
+    border-radius:18px;
+    padding:18px;
+    display:none;
+    flex-direction:column;
+    gap:12px;
+    z-index:10;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+  .panel.open{display:flex}
+  .panel label{font-size:12px;opacity:.75;display:block;margin-bottom:5px}
+  .panel input{
+    width:100%;
+    padding:9px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-size:13px;
+    outline:0;
+  }
+  .panel input:focus{border-color:var(--accent)}
+  .panel .row{display:flex;gap:8px}
+  .panel button{
+    flex:1;
+    padding:9px;
+    border-radius:10px;
+    border:0;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .panel .save{background:var(--accent);color:#1a1a1a}
+  .panel .reset{background:rgba(255,255,255,.12);color:#fff}
+</style>
 </head>
-<body class="flex min-h-screen flex-col bg-[#0a0e14] text-[#8a93a8] antialiased">
+<body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="sticky top-0 z-40 border-b border-[rgba(60,70,92,0.3)] bg-[rgba(10,12,16,0.92)] backdrop-blur-md">
-    <div class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4">
-      <a class="flex items-center gap-2.5 hover:opacity-80 transition-opacity shrink-0" href="#">
-        <div class="icon-wrapper flex h-8 w-8 items-center justify-center rounded-lg bg-purple/10 border border-purple/20">
-          <img src="https://sun9-8.vkuserphoto.ru/s/v1/ig2/I5xmarIhHTQQBagVxHARyBHpWZagqhtYtvEFOnik54JPFeCAK0qc1MQ3RliNPMLlwLrqkfG7Ql1WBGDeG-tNS2eN.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,256x256&from=bu&u=UCsU9CqCFtG3dMDsUW1MXRfRwdukRtmt6ocKwzxXRJ4&cs=256x0" alt="ChmonyaClient" class="icon-img h-6 w-6">
-        </div>
-        <div class="hidden sm:flex items-center gap-2">
-          <span class="text-sm font-bold uppercase tracking-widest text-white">Chmonya<span class="text-purple">Client</span></span>
-        </div>
-      </a>
-      <nav class="hidden md:flex items-center gap-1">
-        <a class="btn-csgo text-sm !bg-purple/10 !border-purple/30 !text-white" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house h-4 w-4"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Главная</a>
-        <a class="btn-csgo text-sm" href="#news"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper h-4 w-4"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>Новости</a>
-        <a class="btn-csgo text-sm" href="#developers"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Разработчики</a>
-        <a class="btn-csgo text-sm" href="https://drive.google.com/file/d/1ZR48LuMBqGI-lWwtye9x5xEQW_bGZ_FM/view?usp=drive_link" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download h-4 w-4"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>Скачать</a>
-        <a class="btn-csgo text-sm !border-purple/40 !text-purple hover:!bg-purple/10" href="https://dalink.to/s1veexz" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Donation Alerts</a>
-      </nav>
+<div class="bg"></div>
+<div class="bg-image" id="bgImage"></div>
+<div class="overlay"></div>
+
+<div class="app">
+  <div class="clock">
+    <div class="time" id="time">--:--</div>
+    <div class="date" id="date"></div>
+    <div class="greeting" id="greeting"></div>
+  </div>
+
+  <form class="search" action="https://yandex.ru/search/" method="get" autocomplete="off">
+    <input type="text" name="text" id="q" placeholder="Поиск в Яндексе…" autofocus>
+    <button type="submit">Найти</button>
+  </form>
+
+  <div class="links">
+    <a href="https://yandex.ru" target="_blank">Яндекс</a>
+    <a href="https://mail.yandex.ru" target="_blank">Почта</a>
+    <a href="https://music.yandex.ru" target="_blank">Музыка</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://www.youtube.com" target="_blank">YouTube</a>
+    <a href="https://t.me" target="_blank">Telegram</a>
+  </div>
+
+  <section class="news">
+    <div class="news-head">
+      <h2>Новости</h2>
+      <button class="refresh" id="refresh">Обновить</button>
     </div>
-  </header>
-
-  <main class="flex-1">
-
-    <!-- ===== HERO ===== -->
-    <section class="relative overflow-hidden hero-bg">
-      <div class="hero-overlay absolute inset-0"></div>
-      <div class="pointer-events-none absolute inset-0">
-        <div class="absolute top-0 left-1/3 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-purple/5 blur-[120px]"></div>
-        <div class="absolute bottom-0 right-1/3 h-[400px] w-[400px] translate-y-1/2 rounded-full bg-purple/5 blur-[100px]"></div>
-      </div>
-      <div class="relative mx-auto max-w-7xl px-4 py-20 sm:py-28 lg:py-36">
-        <div class="flex flex-col items-center text-center animate-on-scroll visible" style="transition-delay: 0ms;">
-          <div class="hero-icon mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-purple/10 border border-purple/20 shadow-lg shadow-purple/10 glow-purple overflow-hidden">
-            <img src="https://images.cybersport.ru/images/quote-author/plain/f0/f0f4eca4-b2dd-448e-815c-05c684d420f9.png" alt="ChmonyaClient" class="h-16 w-16 object-contain">
-          </div>
-          <h1 class="mb-4 text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight">
-            Chmonya <span class="gradient-text">Client</span>
-          </h1>
-          <p class="mb-3 text-lg sm:text-xl text-[#8a93a8] font-bold uppercase tracking-[0.2em]">Ностальгический мод для CS:GO</p>
-          <p class="mb-8 max-w-2xl text-sm sm:text-base text-[#8a93a8]/70 leading-relaxed">Верните легендарную атмосферу культового шутера. Наш эмулятор полностью воспроизводит сетевую инфраструктуру CS:GO — от поиска соперников до системы прогрессии. Наслаждайтесь классическим геймплеем, участвуйте в операциях, получайте награды и погружайтесь в ностальгию по тем временам, когда CS:GO была на пике популярности.</p>
-          <div class="flex flex-wrap items-center justify-center gap-3">
-            <a class="btn-csgo btn-csgo-primary px-8 py-3.5 text-sm font-bold uppercase tracking-wide flex items-center gap-2 rounded-xl" href="https://drive.google.com/file/d/1ZR48LuMBqGI-lWwtye9x5xEQW_bGZ_FM/view?usp=drive_link" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download h-4 w-4"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>Скачать клиент</a>
-            <a class="btn-csgo px-6 py-3.5 text-sm font-bold uppercase tracking-wide flex items-center gap-2 !border-purple/40 !text-purple hover:!bg-purple/10 rounded-xl" href="https://dalink.to/s1veexz" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Поддержать</a>
-          </div>
-          <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <a class="btn-csgo text-sm !border-[#0088cc]/40 !text-[#0088cc] hover:!bg-[#0088cc]/10 rounded-xl" href="https://t.me/chmonyasq" target="_blank">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send h-4 w-4"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg>Telegram
-            </a>
-            <a class="btn-csgo text-sm !border-[#5865F2]/40 !text-[#5865F2] hover:!bg-[#5865F2]/10 rounded-xl" href="https://discord.gg/zw2xXehDBJ" target="_blank">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle h-4 w-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Discord
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== НОВОСТИ ===== -->
-    <section id="news" class="border-b border-white/5 bg-[#0d1018]/50 py-16">
-      <div class="mx-auto max-w-7xl px-4">
-        <div class="mb-8 flex items-center gap-3 animate-on-scroll">
-          <span class="h-6 w-1 bg-purple rounded-full"></span>
-          <h2 class="text-xl font-black uppercase italic tracking-wide text-white">Последние новости</h2>
-          <a class="ml-auto flex items-center gap-1 text-xs uppercase tracking-widest text-purple hover:text-purple/80 transition-colors" href="#newsContainer">Все новости →</a>
-        </div>
-        <div id="newsContainer" class="grid gap-6 sm:grid-cols-2"></div>
-      </div>
-    </section>
-
-    <!-- ===== РАЗРАБОТЧИКИ (без иконок) ===== -->
-    <section id="developers" class="border-b border-white/5 bg-[#0a0d12] py-20 sm:py-24">
-      <div class="mx-auto max-w-7xl px-4">
-        <div class="mb-14 text-center animate-on-scroll">
-          <div class="inline-flex items-center gap-2 bg-purple/10 border border-purple/20 rounded-full px-4 py-1.5 mb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-purple">👨‍💻 команда</span>
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Разработчики <span class="gradient-text">проекта</span></h2>
-          <p class="mt-3 text-sm text-[#8a93a8] max-w-xl mx-auto">Люди, которые вернули легенду к жизни и продолжают поддерживать её</p>
-        </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-6 text-center card-hover animate-on-scroll delay-100">
-            <div class="mx-auto mb-5 h-20 w-20 rounded-full bg-purple/10 border border-purple/20 flex items-center justify-center overflow-hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user h-10 w-10 text-purple"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <h3 class="text-lg font-bold text-white group-hover:text-purple transition-colors">Chmonya</h3>
-            <p class="text-xs font-bold uppercase tracking-wider text-purple mb-3">Основатель</p>
-            <p class="text-sm text-[#8a93a8]/70 leading-relaxed">Идейный вдохновитель, создатель большей части проекта, отвечает за сервера</p>
-          </div>
-          <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-6 text-center card-hover animate-on-scroll delay-200">
-            <div class="mx-auto mb-5 h-20 w-20 rounded-full bg-purple/10 border border-purple/20 flex items-center justify-center overflow-hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code h-10 w-10 text-purple"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </div>
-            <h3 class="text-lg font-bold text-white group-hover:text-purple transition-colors">No_spam</h3>
-            <p class="text-xs font-bold uppercase tracking-wider text-purple mb-3">Второй разработчик</p>
-            <p class="text-sm text-[#8a93a8]/70 leading-relaxed">Создатель матчмейкинга, помог с сайтом и проектом в целом</p>
-          </div>
-          <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-6 text-center card-hover animate-on-scroll delay-300">
-            <div class="mx-auto mb-5 h-20 w-20 rounded-full bg-purple/10 border border-purple/20 flex items-center justify-center overflow-hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette h-10 w-10 text-purple"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-            </div>
-            <h3 class="text-lg font-bold text-white group-hover:text-purple transition-colors">Danger_tea</h3>
-            <p class="text-xs font-bold uppercase tracking-wider text-purple mb-3">UI/UX Дизайнер</p>
-            <p class="text-sm text-[#8a93a8]/70 leading-relaxed">Операция взята из его мода, а затем доработана</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== ОСОБЕННОСТИ (без иконок) ===== -->
-    <section class="mx-auto max-w-7xl px-4 py-20 sm:py-24">
-      <div class="mb-14 text-center animate-on-scroll">
-        <div class="inline-flex items-center gap-2 bg-purple/10 border border-purple/20 rounded-full px-4 py-1.5 mb-4">
-          <span class="text-xs font-bold uppercase tracking-wider text-purple">⚡ возможности</span>
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Всё для <span class="gradient-text">идеальной игры</span></h2>
-        <p class="mt-3 text-sm text-[#8a93a8] max-w-xl mx-auto">Все необходимые инструменты для возрождения оригинального игрового опыта</p>
-      </div>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-7 card-hover animate-on-scroll delay-100">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-purple/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-swords h-5 w-5 text-purple"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg>
-          </div>
-          <h3 class="mb-2 text-base font-bold uppercase tracking-tight text-white group-hover:text-purple transition-colors">Матчмейкинг</h3>
-          <p class="text-sm text-[#8a93a8] leading-relaxed">Оригинальный 5v5 матчмейкинг. Competitive, Wingman, Danger Zone и все классические режимы.</p>
-        </div>
-        <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-7 card-hover animate-on-scroll delay-200">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-purple/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package h-5 w-5 text-purple"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></svg>
-          </div>
-          <h3 class="mb-2 text-base font-bold uppercase tracking-tight text-white group-hover:text-purple transition-colors">Инвентарь и дропы</h3>
-          <p class="text-sm text-[#8a93a8] leading-relaxed">Зарабатывайте скины, кейсы и граффити после матчей. Prime статус открывает доступ к ранговым играм.</p>
-        </div>
-        <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-7 card-hover animate-on-scroll delay-300">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-purple/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crown h-5 w-5 text-purple"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></svg>
-          </div>
-          <h3 class="mb-2 text-base font-bold uppercase tracking-tight text-white group-hover:text-purple transition-colors">Операции и награды</h3>
-          <p class="text-sm text-[#8a93a8] leading-relaxed">Участвуйте в операциях, выполняйте миссии и получайте эксклюзивные награды: агентов, скины, наклейки и нашивки.</p>
-        </div>
-        <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-7 card-hover animate-on-scroll delay-100">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-purple/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders h-5 w-5 text-purple"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="12" y2="12"/><line x1="18" x2="22" y1="16" y2="16"/></svg>
-          </div>
-          <h3 class="mb-2 text-base font-bold uppercase tracking-tight text-white group-hover:text-purple transition-colors">Расширенные настройки</h3>
-          <p class="text-sm text-[#8a93a8] leading-relaxed">Кастомизация меню и другие параметры для тонкой настройки игры.</p>
-        </div>
-        <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-7 card-hover animate-on-scroll delay-200">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-purple/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store h-5 w-5 text-purple"><path d="M2 3h20v3H2z"/><path d="M4 6v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6"/><path d="M10 10h4"/><path d="M12 10v4"/></svg>
-          </div>
-          <h3 class="mb-2 text-base font-bold uppercase tracking-tight text-white group-hover:text-purple transition-colors">Внутриигровой магазин</h3>
-          <p class="text-sm text-[#8a93a8] leading-relaxed">Уникальный магазин с предметами, скинами и пропусками для разнообразия геймплея.</p>
-        </div>
-        <div class="group rounded-xl border border-white/5 bg-[#0f141b] p-7 card-hover animate-on-scroll delay-300">
-          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-purple/10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-5 w-5 text-purple"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <h3 class="mb-2 text-base font-bold uppercase tracking-tight text-white group-hover:text-purple transition-colors">Ностальгический опыт</h3>
-          <p class="text-sm text-[#8a93a8] leading-relaxed">Полное погружение в атмосферу CS:GO образца 2021 и 2019 года. Классический геймплей.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== КАК НАЧАТЬ ===== -->
-    <section class="border-t border-white/5 bg-[#0d1018]">
-      <div class="mx-auto max-w-7xl px-4 py-20 sm:py-24">
-        <div class="mb-14 text-center animate-on-scroll">
-          <div class="inline-flex items-center gap-2 bg-purple/10 border border-purple/20 rounded-full px-4 py-1.5 mb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-purple">🚀 старт</span>
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Как начать <span class="gradient-text">играть?</span></h2>
-          <p class="mt-3 text-sm text-[#8a93a8]">Три простых шага до первого матча в любимой игре</p>
-        </div>
-        <div class="grid gap-6 sm:grid-cols-3">
-          <div class="relative flex flex-col items-center rounded-xl border border-white/5 bg-[#0f141b] p-8 text-center card-hover animate-on-scroll delay-100">
-            <div class="absolute -top-5 left-1/2 -translate-x-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-purple text-white font-black text-sm shadow-lg shadow-purple/30">1</div>
-            <h3 class="mb-3 mt-3 text-base font-bold text-white uppercase tracking-tight">Скачайте CS:GO</h3>
-            <p class="text-sm text-[#8a93a8] leading-relaxed flex-1">Откройте страницу CS:GO в Steam Store (App ID: 4465480) и добавьте в библиотеку.</p>
-            <a href="https://store.steampowered.com/app/4465480/CounterStrikeGlobal_Offensive/" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-purple/30 bg-purple/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-purple hover:bg-purple/10 transition-colors">Steam Store →</a>
-          </div>
-          <div class="relative flex flex-col items-center rounded-xl border border-white/5 bg-[#0f141b] p-8 text-center card-hover animate-on-scroll delay-200">
-            <div class="absolute -top-5 left-1/2 -translate-x-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-purple text-white font-black text-sm shadow-lg shadow-purple/30">2</div>
-            <h3 class="mb-3 mt-3 text-base font-bold text-white uppercase tracking-tight">Скачайте клиент</h3>
-            <p class="text-sm text-[#8a93a8] leading-relaxed flex-1">Загрузите архив с модом с нашего сайта и распакуйте его в любую папку.</p>
-            <a href="https://drive.google.com/file/d/1ZR48LuMBqGI-lWwtye9x5xEQW_bGZ_FM/view?usp=drive_link" target="_blank" class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-purple/30 bg-purple/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-purple hover:bg-purple/10 transition-colors">Скачать мод →</a>
-          </div>
-          <div class="relative flex flex-col items-center rounded-xl border border-white/5 bg-[#0f141b] p-8 text-center card-hover animate-on-scroll delay-300">
-            <div class="absolute -top-5 left-1/2 -translate-x-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-purple text-white font-black text-sm shadow-lg shadow-purple/30">3</div>
-            <h3 class="mb-3 mt-3 text-base font-bold text-white uppercase tracking-tight">Установите мод</h3>
-            <p class="text-sm text-[#8a93a8] leading-relaxed flex-1">Скопируйте содержимое архива в папку с CS:GO и замените файлы. Готово!</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="mt-auto border-t border-[rgba(60,70,92,0.3)] bg-[rgba(10,12,16,0.95)] backdrop-blur-sm">
-    <div class="border-b border-white/5 bg-[#0a0d12]">
-      <div class="mx-auto flex max-w-7xl items-start gap-2.5 px-4 py-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert mt-0.5 h-3.5 w-3.5 shrink-0 text-purple/60"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-        <p class="text-[11px] leading-relaxed text-purple/40">ChmonyaClient — фанатский проект для последней официальной версии Counter-Strike: Global Offensive (App ID: 4465480), поддерживаемый добровольными пожертвованиями игроков. Проект не связан с Valve Corporation. Все авторские права и товарные знаки принадлежат Valve Corporation.</p>
-      </div>
+    <div class="news-grid" id="newsGrid">
+      <div class="skeleton"></div><div class="skeleton"></div>
+      <div class="skeleton"></div><div class="skeleton"></div>
     </div>
-    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
-      <div class="flex items-center gap-3 text-xs text-[#8a93a8]">
-        <div class="icon-wrapper flex h-3.5 w-3.5 items-center justify-center overflow-hidden">
-          <img src="https://sun9-8.vkuserphoto.ru/s/v1/ig2/I5xmarIhHTQQBagVxHARyBHpWZagqhtYtvEFOnik54JPFeCAK0qc1MQ3RliNPMLlwLrqkfG7Ql1WBGDeG-tNS2eN.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,256x256&from=bu&u=UCsU9CqCFtG3dMDsUW1MXRfRwdukRtmt6ocKwzxXRJ4&cs=256x0" alt="ChmonyaClient" class="icon-img h-3.5 w-3.5">
-        </div>
-        <span class="font-bold uppercase tracking-wider text-white">Chmonya<span class="text-purple">Client</span></span>
-        <span class="text-white/20">|</span>
-        <span class="hidden sm:inline text-[#8a93a8]/60">CS:GO Legacy</span>
-      </div>
-      <nav class="flex items-center gap-4 text-[11px] text-[#8a93a8]/60">
-        <a class="hover:text-purple transition-colors" href="#">Главная</a>
-        <a class="hover:text-purple transition-colors" href="#news">Новости</a>
-        <a class="hover:text-purple transition-colors" href="#developers">Разработчики</a>
-        <a class="hover:text-purple transition-colors" href="https://dalink.to/s1veexz" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-3 w-3 inline"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>Donation Alerts</a>
-      </nav>
-      <div class="text-xs text-[#8a93a8]/40">© 2026 ChmonyaClient</div>
-    </div>
-  </footer>
+  </section>
+</div>
 
-  <script>
-    // ===== НОВОСТИ =====
-    const newsData = [
-      {
-        headline: "Запретная Зона расширяется!",
-        body: "Эксперимент развивается. Чтобы остаться в живых до конца, вам придется испытать свои навыки — с новыми картами и вещами, например респавнами, экзо-прыгами и толчковыми минами!",
-        tag: "обновление",
-        image: "https://clan.steamstatic.com/images/3381077/80621b2b2efdb8e77fefcf7689fd03dd5003782f.png",
-        url: "https://store.steampowered.com/news/app/730"
-      },
-      {
-        headline: "Операция «Хищные Воды»",
-        body: "Представляем операцию «Хищные воды», в которую входят новые карты, новые миссии и новые способы игры в ваших любимых режимах! Активируйте пропуск на операцию и выполняйте миссии, чтобы получать награды, в числе которых новые агенты, коллекции оружия, наклейки и нашивки.",
-        tag: "обновление",
-        image: "https://images.steamusercontent.com/ugc/4122474773860967943/56E309B41788AA9E886F768D984286DBEA241198/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-        url: "https://store.steampowered.com/news/app/730"
-      }
-    ];
+<button class="gear" id="gear" title="Настройки">⚙</button>
+<div class="panel" id="panel">
+  <div>
+    <label>Ваше имя (для приветствия)</label>
+    <input type="text" id="inpName" placeholder="Например, Алексей">
+  </div>
+  <div>
+    <label>Ссылка на фоновое изображение</label>
+    <input type="url" id="inpBg" placeholder="https://…/photo.jpg">
+  </div>
+  <div class="row">
+    <button class="save" id="save">Сохранить</button>
+    <button class="reset" id="reset">Сброс</button>
+  </div>
+</div>
 
-    function renderNews(item) {
-      return `
-        <div class="rounded-xl border border-white/5 bg-[#0f141b] overflow-hidden card-hover animate-on-scroll">
-          <img src="${item.image}" alt="${item.headline}" class="news-img" loading="lazy">
-          <div class="p-6">
-            <div class="flex items-center gap-3 mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-purple bg-purple/10 px-3 py-1 rounded-full border border-purple/20">${item.tag}</span>
-              <span class="text-xs text-[#8a93a8]/40">${new Date().toLocaleDateString('ru-RU')}</span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-1.5">${item.headline}</h3>
-            <p class="text-sm text-[#8a93a8]/70 leading-relaxed mb-4">${item.body}</p>
-            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-purple hover:text-purple/80 transition-colors">
-              Читать далее
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-3.5 w-3.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-          </div>
-        </div>
-      `;
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+
+  /* ---------- Настройки ---------- */
+  const store = {
+    get: k => localStorage.getItem(k),
+    set: (k, v) => v ? localStorage.setItem(k, v) : localStorage.removeItem(k)
+  };
+
+  function applySettings() {
+    const bg = store.get('ntp_bg');
+    const img = $('#bgImage');
+    if (bg) {
+      img.style.setProperty('--bg-img', `url("${bg}")`);
+      img.style.display = 'block';
+    } else {
+      img.style.display = 'none';
     }
+  }
+  applySettings();
 
-    document.getElementById('newsContainer').innerHTML = newsData.map(renderNews).join('');
+  $('#gear').onclick = () => {
+    $('#panel').classList.toggle('open');
+    $('#inpName').value = store.get('ntp_name') || '';
+    $('#inpBg').value = store.get('ntp_bg') || '';
+  };
+  $('#save').onclick = () => {
+    store.set('ntp_name', $('#inpName').value.trim());
+    store.set('ntp_bg', $('#inpBg').value.trim());
+    applySettings();
+    updateClock();
+    $('#panel').classList.remove('open');
+  };
+  $('#reset').onclick = () => {
+    store.set('ntp_name', '');
+    store.set('ntp_bg', '');
+    $('#inpName').value = '';
+    $('#inpBg').value = '';
+    applySettings();
+    updateClock();
+  };
 
-    // ===== АНИМАЦИИ =====
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px 0px -10% 0px',
-      threshold: 0.15
-    };
+  /* ---------- Часы ---------- */
+  function pad(n){ return String(n).padStart(2,'0'); }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+  function greeting(h) {
+    const name = store.get('ntp_name');
+    let g;
+    if (h >= 5 && h < 12) g = 'Доброе утро';
+    else if (h >= 12 && h < 18) g = 'Добрый день';
+    else if (h >= 18 && h < 23) g = 'Добрый вечер';
+    else g = 'Доброй ночи';
+    return name ? `${g}, ${name}!` : `${g}!`;
+  }
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-      if (!el.classList.contains('visible')) {
-        observer.observe(el);
+  function updateClock() {
+    const now = new Date();
+    $('#time').innerHTML = `${pad(now.getHours())}:${pad(now.getMinutes())}<span class="sec">${pad(now.getSeconds())}</span>`;
+    $('#date').textContent = now.toLocaleDateString('ru-RU', {
+      weekday: 'long', day: 'numeric', month: 'long'
+    });
+    $('#greeting').textContent = greeting(now.getHours());
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  /* ---------- Новости ---------- */
+  const FEEDS = [
+    { name: 'Lenta',    url: 'https://lenta.ru/rss/news' },
+    { name: 'RBC',      url: 'https://rssexport.rbc.ru/rbcnews/news/30/full.rss' },
+    { name: 'TASS',     url: 'https://tass.ru/rss/v2.xml' },
+    { name: 'Interfax', url: 'https://www.interfax.ru/rss.asp' }
+  ];
+  const CACHE_KEY = 'ntp_news_cache';
+  const CACHE_TTL = 15 * 60 * 1000; // 15 минут
+
+  const grid = $('#newsGrid');
+
+  function timeAgo(ts) {
+    if (!ts) return '';
+    const diff = Math.floor((Date.now() - ts) / 60000);
+    if (diff < 1) return 'только что';
+    if (diff < 60) return `${diff} мин назад`;
+    const h = Math.floor(diff / 60);
+    if (h < 24) return `${h} ч назад`;
+    return new Date(ts).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  }
+
+  function render(items) {
+    if (!items.length) { renderFallback(); return; }
+    grid.innerHTML = items.map(it => `
+      <a class="card" href="${it.link}" target="_blank" rel="noopener">
+        <div class="src">${it.source}</div>
+        <div class="title">${it.title}</div>
+        <div class="time">${timeAgo(it.date)}</div>
+      </a>
+    `).join('');
+  }
+
+  function renderFallback() {
+    const sites = [
+      ['Lenta.ru', 'https://lenta.ru'],
+      ['РБК', 'https://www.rbc.ru'],
+      ['ТАСС', 'https://tass.ru'],
+      ['Интерфакс', 'https://www.interfax.ru'],
+      ['Коммерсантъ', 'https://www.kommersant.ru'],
+      ['РИА Новости', 'https://ria.ru'],
+      ['Meduza', 'https://meduza.io'],
+      ['Хабр', 'https://habr.com/ru/news/']
+    ];
+    grid.innerHTML = sites.map(([n, u]) => `
+      <a class="card" href="${u}" target="_blank" rel="noopener">
+        <div class="src">${n}</div>
+        <div class="title">Открыть новости ${n}</div>
+        <div class="time">перейти на сайт →</div>
+      </a>
+    `).join('');
+  }
+
+  async function fetchFeed(f) {
+    const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(f.url)}&count=6`;
+    const r = await fetch(url);
+    const j = await r.json();
+    if (j.status !== 'ok' || !Array.isArray(j.items)) throw new Error('bad feed');
+    return j.items.map(it => ({
+      title: it.title,
+      link: it.link,
+      source: f.name,
+      date: Date.parse(it.pubDate) || 0
+    }));
+  }
+
+  async function loadNews(force = false) {
+    try {
+      const cached = JSON.parse(store.get(CACHE_KEY) || 'null');
+      if (!force && cached && Date.now() - cached.t < CACHE_TTL) {
+        render(cached.items);
+        return;
       }
-    });
+      const results = await Promise.allSettled(FEEDS.map(fetchFeed));
+      let items = [];
+      results.forEach(r => { if (r.status === 'fulfilled') items.push(...r.value); });
+      // убираем дубликаты по заголовку
+      const seen = new Set();
+      items = items.filter(i => {
+        if (seen.has(i.title)) return false;
+        seen.add(i.title);
+        return true;
+      }).sort((a, b) => b.date - a.date).slice(0, 12);
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          e.preventDefault();
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  </script>
+      if (items.length) {
+        store.set(CACHE_KEY, JSON.stringify({ t: Date.now(), items }));
+        render(items);
+      } else {
+        renderFallback();
+      }
+    } catch (e) {
+      renderFallback();
+    }
+  }
 
+  $('#refresh').onclick = () => {
+    grid.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';
+    loadNews(true);
+  };
+
+  loadNews();
+
+  /* ---------- Клавиша "/" фокусирует поиск ---------- */
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== $('#q') && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      $('#q').focus();
+    }
+    if (e.key === 'Escape') {
+      $('#panel').classList.remove('open');
+      $('#q').blur();
+    }
+  });
+})();
+</script>
 </body>
 </html>
